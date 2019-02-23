@@ -210,5 +210,21 @@ public class ZamowienieTest {
                 , Double.valueOf(suma));
         System.out.println(zamowienie9);
     }
-}
 
+    @Test
+    public void testZapiszDoPliku() {
+        //given
+        Zamowienie zamowienie = new Zamowienie();
+        //when
+        zamowienie.dodajPozycje(new Pozycja("browar", 20, 1.5));
+        zamowienie.dodajPozycje(new Pozycja("woda", 10, 2));
+        zamowienie.dodajPozycje(new Pozycja("woda", 10, 2));
+        zamowienie.dodajPozycje(new Pozycja("chleb", 40, 10));
+        Zamowienie.zapiszZamowienie(zamowienie,"z1.txt");
+
+        //then
+        Zamowienie zamowienie1 = Zamowienie.wczytajZamowienie("z1.txt");
+        assertEquals(zamowienie.getPozycje(), zamowienie1.getPozycje());
+        assertEquals(zamowienie, zamowienie1);
+    }
+}

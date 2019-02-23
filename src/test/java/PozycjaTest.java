@@ -102,4 +102,10 @@ public class PozycjaTest {
         //then
         assertEquals(Double.valueOf(3400), Double.valueOf(wartoscZRabatem));
     }
+    @Test
+    public void testZapisDoPliku(){
+        //given
+        Zamowienie zamowienie = new Zamowienie();
+        ;
+    }
 }

@@ -1,12 +1,12 @@
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.io.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Pozycja {
     private String nazwaTowaru;
     private int ileSztuk;
@@ -37,3 +37,4 @@ public class Pozycja {
         }
     }
 }
+

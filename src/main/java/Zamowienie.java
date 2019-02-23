@@ -1,16 +1,18 @@
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Zamowienie {
 
     private List<Pozycja> pozycje = new ArrayList<Pozycja>();
@@ -84,4 +86,49 @@ public class Zamowienie {
         }
         return suma;
     }
+
+    public static void zapiszZamowienie(Zamowienie z, String nazwaPliku) {
+        try {
+            PrintWriter printWriter = new PrintWriter("pliki/" + nazwaPliku);
+
+            for (Pozycja pozycja : z.getPozycje()) {
+                printWriter.print(pozycja.getNazwaTowaru());
+                printWriter.print("~");
+                printWriter.print(pozycja.getIleSztuk());
+                printWriter.print("~");
+                printWriter.print(pozycja.getCena());
+                printWriter.println();
+            }
+            printWriter.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Zamowienie wczytajZamowienie(String nazwaPliku) {
+        try {
+            Scanner scanner = new Scanner(new File("pliki/" + nazwaPliku));
+            Zamowienie zamowienie = new Zamowienie();
+            while (scanner.hasNextLine()) {
+                String odczyt = scanner.nextLine();
+
+                String[] split = odczyt.split("~");
+                try {
+                    Pozycja pozycja = new Pozycja(split[0]
+                            , Integer.valueOf(split[1])
+                            , Double.valueOf(split[2])
+                    );
+                    zamowienie.dodajPozycje(pozycja);
+                } catch (NumberFormatException e) {
+                    // ignore
+                }
+            }
+            return zamowienie;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
